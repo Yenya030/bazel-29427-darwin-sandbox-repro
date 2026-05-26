@@ -14,8 +14,6 @@ resolve_bazel() {
     command -v bazelisk
   elif command -v bazel >/dev/null 2>&1; then
     command -v bazel
-  elif [[ -x "${ROOT}/../../../.tmp-bin/bazelisk" ]]; then
-    printf '%s\n' "${ROOT}/../../../.tmp-bin/bazelisk"
   else
     echo "Set BAZEL=/absolute/path/to/bazel or put bazel/bazelisk in PATH." >&2
     exit 1
