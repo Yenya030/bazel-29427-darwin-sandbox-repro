@@ -1,0 +1,23 @@
+load(":test_rule.bzl", "sandbox_probe")
+
+sandbox_probe(
+    name = "control",
+    test_tmpdir = "safe_tmpdir",
+)
+
+sandbox_probe(
+    name = "escape",
+    test_tmpdir = "\") (regex \".*",
+)
+
+sandbox_probe(
+    name = "control_impact",
+    mode = "impact",
+    test_tmpdir = "safe_tmpdir",
+)
+
+sandbox_probe(
+    name = "escape_impact",
+    mode = "impact",
+    test_tmpdir = "\") (regex \".*",
+)
