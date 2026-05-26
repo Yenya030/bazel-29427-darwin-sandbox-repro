@@ -4,7 +4,8 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE="${ROOT}/workspace"
 RUNTIME="${ROOT}/runtime"
-OUTSIDE_FILE="${RUNTIME}/outside.txt"
+OUTSIDE_DIR="${BAZEL_29427_OUTSIDE_DIR:-${HOME}/.bazel-29427-repro/outside}"
+OUTSIDE_FILE="${OUTSIDE_DIR}/outside.txt"
 OUTPUT_USER_ROOT="${RUNTIME}/output_user_root"
 
 resolve_bazel() {
@@ -23,7 +24,7 @@ resolve_bazel() {
 BAZEL="$(resolve_bazel)"
 
 rm -rf "${RUNTIME}"
-mkdir -p "${RUNTIME}"
+mkdir -p "${RUNTIME}" "${OUTSIDE_DIR}"
 
 run_target() {
   local target="$1"

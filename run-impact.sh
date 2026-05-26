@@ -3,7 +3,8 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE="${ROOT}/workspace"
-VICTIM="${ROOT}/victim-workspace"
+VICTIM_TEMPLATE="${ROOT}/victim-workspace"
+VICTIM="${BAZEL_29427_VICTIM_DIR:-${HOME}/.bazel-29427-repro/victim-workspace}"
 RUNTIME="${ROOT}/runtime-impact"
 VICTIM_BUILD="${VICTIM}/BUILD.bazel"
 OUTPUT_USER_ROOT="${RUNTIME}/output_user_root"
@@ -24,8 +25,10 @@ resolve_bazel() {
 BAZEL="$(resolve_bazel)"
 
 reset_victim() {
-  rm -rf "${RUNTIME}"
-  mkdir -p "${RUNTIME}"
+  rm -rf "${RUNTIME}" "${VICTIM}"
+  mkdir -p "${RUNTIME}" "${VICTIM}"
+  cp "${VICTIM_TEMPLATE}/MODULE.bazel" "${VICTIM}/MODULE.bazel"
+  cp "${VICTIM_TEMPLATE}/safe.txt" "${VICTIM}/safe.txt"
   cat > "${VICTIM_BUILD}" <<'EOF'
 exports_files(["safe.txt"])
 EOF
